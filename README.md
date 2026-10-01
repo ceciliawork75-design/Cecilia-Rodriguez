@@ -1,2 +1,2 @@
 # Cecilia-Rodriguez
-Taleto Parent Bootcamp Sept 2026
+Paleto Parent Bootcamp Sept 2026
