@@ -1,2 +1,2 @@
 # Cecilia-Rodriguez
-Paleto Parent Bootcamp Sept 2026
+Pareto Talent Bootcamp Sept 2026
