@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Review · Unit 4 · Life on Earth</title>
+<style>
+:root{
+  --bg:#f4f7f6; --card:#fff; --ink:#1d2b33; --muted:#5b6b74; --line:#dfe6e9;
+  --pri:#0f7c80; --pri-soft:#e2f3f3; --ok:#1f9d55; --ok-soft:#e3f6ea; --bad:#d64545; --bad-soft:#fde8e8;
+  --c:#ffd166; --s:#8ecae6;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.45}
+header{background:var(--pri);color:#fff;padding:18px 16px 14px}
+header h1{margin:0;font-size:1.35rem}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-weight:800;font-size:1.15rem;letter-spacing:.3px}
+.brand img{height:56px;width:auto;background:#fff;border-radius:10px;padding:4px}
+header p{margin:4px 0 0;opacity:.9;font-size:.95rem}
+nav{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);display:flex;overflow-x:auto;gap:4px;padding:6px 8px}
+nav button{flex:0 0 auto;border:0;background:transparent;padding:10px 14px;border-radius:999px;font-size:.95rem;color:var(--muted);cursor:pointer;font-weight:600}
+nav button.on{background:var(--pri);color:#fff}
+main{max-width:980px;margin:0 auto;padding:16px 12px 60px}
+section.tab{display:none}
+section.tab.on{display:block}
+.intro{background:var(--pri-soft);border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.intro h2{margin:0 0 4px;font-size:1.2rem}
+.act{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:0 0 18px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.act h3{margin:0;font-size:1.05rem}
+.act h3 .num{display:inline-block;background:var(--pri);color:#fff;border-radius:8px;padding:1px 8px;margin-right:6px;font-size:.9rem}
+.hint{color:var(--muted);font-size:.9rem;margin:4px 0 10px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:600;cursor:pointer;font-size:.92rem}
+.btn.check{background:var(--pri);color:#fff}
+.btn.sec{background:#eef2f3;color:var(--ink)}
+.score{font-weight:700;margin-left:auto}
+.score.good{color:var(--ok)} .score.mid{color:#b7791f} .score.low{color:var(--bad)}
+/* chips & drops */
+.bank{display:flex;flex-wrap:wrap;gap:8px;min-height:48px;padding:10px;border:2px dashed var(--line);border-radius:12px;background:#fafcfc;margin-bottom:12px}
+.chip{display:inline-block;padding:7px 12px;border-radius:999px;background:#fff;border:2px solid var(--pri);color:var(--pri);font-weight:600;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;font-size:.95rem}
+.chip.sel{background:var(--pri);color:#fff}
+.chip.dragging{opacity:.3}
+.chip.ghost{position:fixed;z-index:1000;pointer-events:none;box-shadow:0 6px 18px rgba(0,0,0,.2);background:#fff}
+.chip.ok{border-color:var(--ok);color:var(--ok);background:var(--ok-soft)}
+.chip.bad{border-color:var(--bad);color:var(--bad);background:var(--bad-soft)}
+.slot{display:inline-flex;align-items:center;justify-content:center;min-width:110px;min-height:40px;border:2px dashed #b8c6cb;border-radius:999px;padding:2px;vertical-align:middle;background:#fff}
+.slot.over,.bin.over,.bank.over{border-color:var(--pri);background:var(--pri-soft)}
+.slot.ok{border:2px solid var(--ok);background:var(--ok-soft)}
+.slot.bad{border:2px solid var(--bad);background:var(--bad-soft)}
+.slot .chip{border-style:solid}
+.slot.ok .chip{border-color:var(--ok);color:var(--ok)}
+.slot.bad .chip{border-color:var(--bad);color:var(--bad)}
+.grid-pics{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.pic{border:1px solid var(--line);border-radius:12px;padding:8px;text-align:center;background:#fff}
+.pic svg{width:100%;height:auto;border-radius:8px;display:block;margin-bottom:8px}
+.rows .row{display:flex;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.rows .row:last-child{border-bottom:0}
+.rows .row .txt{flex:1 1 240px}
+.sent{padding:9px 0;border-bottom:1px solid var(--line)}
+.sent:last-child{border-bottom:0}
+.lead{font-weight:700;color:var(--pri);margin-right:4px}
+/* bins */
+.bins{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.bin{border:2px dashed #b8c6cb;border-radius:12px;padding:8px;min-height:110px;background:#fff}
+.bin h4{margin:0 0 2px;font-size:.95rem}
+.bin .rule{font-size:.82rem;color:var(--muted);margin-bottom:6px}
+.bin .in{display:flex;flex-wrap:wrap;gap:6px}
+/* mc */
+.mcq{padding:10px 0;border-bottom:1px solid var(--line)}
+.mcq:last-child{border-bottom:0}
+.mcq .q{font-weight:600;margin-bottom:6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{border:2px solid var(--line);background:#fff;border-radius:10px;padding:7px 12px;cursor:pointer;font-size:.95rem;text-align:left}
+.opt:hover{border-color:var(--pri)}
+.opt.picked{border-color:var(--pri);background:var(--pri-soft)}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft)}
+.why{font-size:.88rem;color:var(--muted);margin-top:6px;display:none}
+.why.show{display:block}
+/* type */
+.tq{padding:9px 0;border-bottom:1px solid var(--line)}
+.tq:last-child{border-bottom:0}
+input.ti{border:2px solid #b8c6cb;border-radius:8px;padding:6px 8px;font-size:.95rem;min-width:120px;max-width:100%}
+input.ti.wide{width:100%;margin-top:6px}
+input.ti.ok{border-color:var(--ok);background:var(--ok-soft)}
+input.ti.bad{border-color:var(--bad);background:var(--bad-soft)}
+.sol{color:var(--ok);font-size:.88rem;font-weight:600;margin-left:6px}
+table.forms{border-collapse:collapse;width:100%}
+table.forms th,table.forms td{border:1px solid var(--line);padding:6px;text-align:left}
+table.forms th{background:#f0f5f5}
+table.forms input.ti{width:100%;min-width:0}
+/* order */
+.oq{padding:10px 0;border-bottom:1px solid var(--line)}
+.oq:last-child{border-bottom:0}
+.built{min-height:44px;border:2px dashed #b8c6cb;border-radius:10px;padding:6px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#fff;margin-bottom:6px}
+.built.ok{border:2px solid var(--ok);background:var(--ok-soft)}
+.built.bad{border:2px solid var(--bad);background:var(--bad-soft)}
+.pool{display:flex;flex-wrap:wrap;gap:6px}
+.tile{border:2px solid #9fb3ba;background:#fff;border-radius:8px;padding:5px 10px;cursor:pointer;font-size:.95rem}
+.built .tile{border-color:var(--pri);color:var(--pri);font-weight:600}
+/* highlight */
+.mode{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.mode button{border:2px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;background:#fff;font-weight:600}
+.mode button.on{border-color:var(--ink)}
+.mode .mc{background:var(--c)} .mode .ms{background:var(--s)} .mode .mx{background:#fff}
+.tok{cursor:pointer;border-radius:5px;padding:1px 2px}
+.tok.c{background:var(--c)} .tok.s{background:var(--s)}
+.tok.okm{outline:2px solid var(--ok)} .tok.badm{outline:2px solid var(--bad)}
+.legend{font-size:.85rem;color:var(--muted)}
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:16px}
+.card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--pri);border-radius:10px;padding:10px 12px;font-size:.95rem}
+.card h4{margin:0 0 6px}
+.card ul{margin:0;padding-left:18px}
+.report{margin-top:12px;border-radius:12px;padding:12px;background:#fff8e6;border:1px solid #f3d28a;display:none}
+.report.show{display:block}
+.report h4{margin:0 0 6px}
+.missed{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:8px}
+.missed div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:6px;text-align:center;font-size:.9rem}
+.missed svg{width:100%;height:auto;border-radius:6px}
+.paintings{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+.paintings figure{margin:0;text-align:center;font-size:.85rem}
+.big-score{font-size:2rem;font-weight:800;color:var(--pri)}
+.tag{display:inline-block;font-size:.75rem;background:#eef2f3;border-radius:6px;padding:1px 6px;margin-left:6px;color:var(--muted);font-weight:600}
+@media (max-width:560px){.slot{min-width:90px}.chip{font-size:.9rem;padding:6px 10px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><img src="logo.png" alt="Dígalo en inglés" onerror="this.style.display='none'"><span>Dígalo en inglés</span></div>
+  <h1>English Review · Unit 4 · Life on Earth</h1>
+  <p>Geographical features · Comparatives &amp; superlatives · Short and long questions</p>
+</header>
+<nav id="tabs"></nav>
+<main id="app"></main>
+
+<script>
+/* ---------- pictures ---------- */
+const SKY='<rect width="120" height="80" fill="#cfe8ff"/>';
+const PICS={
+valley:SKY+'<polygon points="0,80 0,12 50,80" fill="#7d8f9c"/><polygon points="120,80 120,8 70,80" fill="#6a7c89"/><polygon points="0,12 10,26 0,30" fill="#fff"/><polygon points="120,8 110,22 120,26" fill="#fff"/><path d="M22,80 Q60,44 98,80Z" fill="#72c25e"/><path d="M56,80 C58,70 64,62 60,52" stroke="#3a8fd9" stroke-width="4" fill="none"/>',
+waterfalls:SKY+'<rect x="0" y="8" width="120" height="44" fill="#7d5a3c"/><rect x="0" y="6" width="120" height="6" fill="#4caf50"/><rect x="38" y="10" width="44" height="52" fill="#86c9f7"/><g stroke="#fff" stroke-width="2"><line x1="46" y1="12" x2="46" y2="60"/><line x1="55" y1="12" x2="55" y2="62"/><line x1="64" y1="12" x2="64" y2="62"/><line x1="73" y1="12" x2="73" y2="60"/></g><ellipse cx="60" cy="68" rx="58" ry="12" fill="#3a8fd9"/><ellipse cx="60" cy="62" rx="26" ry="5" fill="#fff" opacity=".8"/>',
+canyon:SKY+'<path d="M0,18 L46,18 L54,80 L0,80Z" fill="#d9773b"/><path d="M120,22 L74,22 L66,80 L120,80Z" fill="#c4622d"/><g stroke="#a94f22" stroke-width="2"><line x1="0" y1="34" x2="48" y2="34"/><line x1="0" y1="52" x2="50" y2="52"/><line x1="120" y1="40" x2="72" y2="40"/><line x1="120" y1="58" x2="69" y2="58"/></g><path d="M53,80 L67,80 L64,72 L56,72Z" fill="#3a8fd9"/>',
+desert:'<rect width="120" height="80" fill="#ffeec2"/><circle cx="98" cy="16" r="9" fill="#ffb703"/><path d="M0,50 Q40,32 80,50 T120,44 V80 H0Z" fill="#f2d48c"/><path d="M0,62 Q30,46 62,60 T120,58 V80 H0Z" fill="#e3b862"/><rect x="26" y="34" width="6" height="26" rx="3" fill="#3f8f3f"/><rect x="18" y="40" width="5" height="10" rx="2" fill="#3f8f3f"/><rect x="18" y="46" width="10" height="4" fill="#3f8f3f"/><rect x="35" y="38" width="5" height="10" rx="2" fill="#3f8f3f"/><rect x="31" y="44" width="9" height="4" fill="#3f8f3f"/>',
+river:'<rect width="120" height="80" fill="#8fd16f"/><path d="M14,-2 C44,22 2,42 50,54 S92,64 112,84" stroke="#3a8fd9" stroke-width="13" fill="none"/><g fill="#2f7d32"><circle cx="90" cy="18" r="7"/><circle cx="102" cy="28" r="6"/><circle cx="20" cy="66" r="7"/><circle cx="80" cy="40" r="5"/></g>',
+forest:SKY+'<rect y="62" width="120" height="18" fill="#6cbf5a"/><g fill="#2e7d32"><polygon points="12,64 24,20 36,64"/><polygon points="34,66 48,14 62,66"/><polygon points="58,64 72,24 86,64"/><polygon points="82,66 96,16 110,66"/></g><g fill="#6d4c2f"><rect x="22" y="62" width="4" height="8"/><rect x="46" y="64" width="4" height="8"/><rect x="70" y="62" width="4" height="8"/><rect x="94" y="64" width="4" height="8"/></g>',
+island:'<rect width="120" height="80" fill="#cfe8ff"/><rect y="34" width="120" height="46" fill="#2f8fd8"/><ellipse cx="60" cy="56" rx="34" ry="10" fill="#f2d48c"/><path d="M60,54 Q56,38 62,26" stroke="#7a5230" stroke-width="3" fill="none"/><g fill="#2e9d4a"><path d="M62,26 Q48,22 42,32 Q52,26 62,28Z"/><path d="M62,26 Q76,20 82,30 Q72,25 62,28Z"/><path d="M62,26 Q60,14 52,12 Q60,18 61,27Z"/><path d="M62,26 Q68,14 76,14 Q66,18 63,27Z"/></g><g stroke="#fff" stroke-width="1.5" fill="none"><path d="M8,46 q4,-3 8,0 q4,3 8,0"/><path d="M92,70 q4,-3 8,0 q4,3 8,0"/></g>',
+cave:SKY+'<rect y="70" width="120" height="10" fill="#6cbf5a"/><path d="M0,80 Q8,22 60,14 Q112,22 120,80Z" fill="#8d8d8d"/><path d="M20,40 L34,36 M86,32 L100,40" stroke="#6f6f6f" stroke-width="3"/><path d="M38,80 Q40,44 60,40 Q80,44 82,80Z" fill="#222"/>',
+ocean:'<rect width="120" height="80" fill="#d8efff"/><rect y="24" width="120" height="56" fill="#1f5fa8"/><g stroke="#fff" stroke-width="2" fill="none" opacity=".85"><path d="M4,38 q6,-4 12,0 q6,4 12,0"/><path d="M60,46 q6,-4 12,0 q6,4 12,0"/><path d="M20,60 q6,-4 12,0 q6,4 12,0"/><path d="M80,66 q6,-4 12,0 q6,4 12,0"/></g><path d="M86,22 L106,22 L102,28 L90,28Z" fill="#fff"/><path d="M96,22 L96,10 L104,20Z" fill="#fff"/>',
+rainforest:'<rect width="120" height="80" fill="#a7d8a0"/><g fill="#1b5e20"><circle cx="14" cy="26" r="16"/><circle cx="40" cy="18" r="18"/><circle cx="70" cy="24" r="17"/><circle cx="100" cy="18" r="19"/></g><g fill="#2e7d32"><circle cx="26" cy="44" r="14"/><circle cx="58" cy="42" r="15"/><circle cx="90" cy="44" r="15"/></g><g fill="#5d4037"><rect x="24" y="54" width="5" height="26"/><rect x="56" y="54" width="5" height="26"/><rect x="88" y="56" width="5" height="24"/></g><g stroke="#4fa3ff" stroke-width="2"><line x1="10" y1="4" x2="6" y2="12"/><line x1="52" y1="2" x2="48" y2="10"/><line x1="84" y1="4" x2="80" y2="12"/><line x1="112" y1="2" x2="108" y2="10"/></g><circle cx="74" cy="60" r="3" fill="#e53935"/>',
+lake:SKY+'<polygon points="0,44 24,14 48,44" fill="#7d8f9c"/><polygon points="36,44 64,8 92,44" fill="#6a7c89"/><polygon points="80,44 102,18 124,44" fill="#7d8f9c"/><polygon points="64,8 56,20 72,20" fill="#fff"/><rect y="42" width="120" height="38" fill="#6cbf5a"/><ellipse cx="60" cy="60" rx="46" ry="13" fill="#3a8fd9"/><ellipse cx="50" cy="58" rx="16" ry="3" fill="#fff" opacity=".5"/>',
+beach:'<rect width="120" height="80" fill="#cfe8ff"/><circle cx="20" cy="14" r="8" fill="#ffb703"/><rect y="30" width="120" height="22" fill="#2f8fd8"/><path d="M0,50 Q60,40 120,50 V80 H0Z" fill="#f2d48c"/><line x1="82" y1="38" x2="88" y2="74" stroke="#555" stroke-width="2"/><path d="M64,42 Q80,22 102,36Z" fill="#e63946"/><path d="M74,36 Q80,26 90,32" stroke="#fff" stroke-width="3" fill="none"/>',
+reef:'<rect width="120" height="80" fill="#2a9fd6"/><rect y="0" width="120" height="8" fill="#7fd3ff"/><g fill="#ff7f50"><path d="M10,80 L14,56 L18,64 L22,50 L26,80Z"/><path d="M80,80 L84,58 L88,66 L92,48 L96,62 L100,80Z"/></g><g fill="#ff4f9a"><circle cx="44" cy="70" r="9"/><circle cx="56" cy="66" r="7"/><circle cx="64" cy="74" r="8"/></g><rect x="104" y="60" width="6" height="20" rx="3" fill="#8e44ad"/><g fill="#ffd166"><path d="M30,28 q10,-8 20,0 q-10,8 -20,0Z"/><path d="M50,28 l6,-5 v10Z"/></g><g fill="#fff"><path d="M70,40 q8,-6 16,0 q-8,6 -16,0Z"/><path d="M86,40 l5,-4 v8Z"/></g>',
+mountain:SKY+'<polygon points="6,80 50,10 94,80" fill="#6a7c89"/><polygon points="50,10 38,30 46,26 52,32 60,26 62,30" fill="#fff"/><polygon points="60,80 92,30 124,80" fill="#8a9ba7"/><polygon points="92,30 84,42 92,40 100,44" fill="#fff"/><rect y="74" width="120" height="6" fill="#6cbf5a"/>'
+};
+const pic=n=>'<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="picture">'+PICS[n]+'</svg>';
+const PAINT={
+sue:'<svg width="150" height="110" viewBox="0 0 150 110"><rect width="150" height="110" fill="#8d6e63"/><rect x="7" y="7" width="136" height="96" fill="#ffe0f0"/><g stroke="#4fa3ff" stroke-width="2"><line x1="20" y1="10" x2="16" y2="30"/><line x1="50" y1="12" x2="46" y2="32"/><line x1="110" y1="10" x2="106" y2="30"/><line x1="130" y1="20" x2="126" y2="40"/></g><path d="M50,50 Q70,30 90,50Z" fill="#e63946"/><line x1="70" y1="50" x2="70" y2="90" stroke="#333" stroke-width="2"/><circle cx="62" cy="66" r="5" fill="#f4a261"/><rect x="58" y="72" width="8" height="18" fill="#2a9d8f"/><circle cx="78" cy="66" r="5" fill="#f4a261"/><rect x="74" y="72" width="8" height="18" fill="#ffb703"/></svg>',
+kim:'<svg width="110" height="80" viewBox="0 0 110 80"><rect width="110" height="80" fill="#455a64"/><rect x="6" y="6" width="98" height="68" fill="#cfd8dc"/><rect x="30" y="34" width="50" height="30" fill="#78909c"/><polygon points="26,36 55,18 84,36" fill="#546e7a"/><rect x="38" y="42" width="10" height="10" fill="#fff"/><rect x="60" y="42" width="10" height="10" fill="#fff"/><rect y="64" x="6" width="98" height="10" fill="#607d8b"/></svg>',
+ted:'<svg width="70" height="56" viewBox="0 0 70 56"><rect width="70" height="56" fill="#6d4c41"/><rect x="5" y="5" width="60" height="46" fill="#e8f5e9"/><g fill="#388e3c"><polygon points="12,44 20,16 28,44"/><polygon points="28,46 36,12 44,46"/><polygon points="42,44 50,18 58,44"/></g></svg>'
+};
+
+/* ---------- helpers ---------- */
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const norm=s=>(s||'').toLowerCase().replace(/[’‘`´]/g,"'").replace(/[¿?¡!.,;:]/g,'').replace(/\s+/g,' ').trim();
+const arr=x=>Array.isArray(x)?x:[x];
+const R={}; // results
+function setScore(act,c,t){const s=$('.score',act);const p=t?c/t:0;s.textContent=c+' / '+t;s.className='score '+(p>=.8?'good':p>=.5?'mid':'low');}
+
+/* ---------- drag & tap ---------- */
+let selected=null, drag=null;
+function chip(text,extra={}){const c=document.createElement('span');c.className='chip';c.textContent=text;c.dataset.v=text;Object.assign(c.dataset,extra);c.addEventListener('pointerdown',onDown);return c;}
+function clearFb(act){$$('.ok,.bad',act).forEach(x=>{if(!x.classList.contains('opt'))x.classList.remove('ok','bad')});const s=$('.score',act);if(s){s.textContent='';}}
+function onDown(e){if(e.button>0)return;const c=e.currentTarget;drag={chip:c,x:e.clientX,y:e.clientY,moved:false};c.setPointerCapture(e.pointerId);c.addEventListener('pointermove',onMove);c.addEventListener('pointerup',onUp);c.addEventListener('pointercancel',onCancel);}
+function target(x,y){const el=document.elementFromPoint(x,y);if(!el)return null;const t=el.closest('.drop');if(!t||t.closest('.act')!==drag.chip.closest('.act'))return null;return t;}
+function onMove(e){if(!drag)return;if(!drag.moved&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<6)return;
+  if(!drag.moved){drag.moved=true;const r=drag.chip.getBoundingClientRect();const g=drag.chip.cloneNode(true);g.classList.add('ghost');g.classList.remove('sel','ok','bad');document.body.appendChild(g);drag.g=g;drag.ox=drag.x-r.left;drag.oy=drag.y-r.top;drag.chip.classList.add('dragging');if(selected){selected.classList.remove('sel');selected=null;}}
+  drag.g.style.left=(e.clientX-drag.ox)+'px';drag.g.style.top=(e.clientY-drag.oy)+'px';
+  $$('.over').forEach(x=>x.classList.remove('over'));const t=target(e.clientX,e.clientY);if(t)t.classList.add('over');
+  if(e.clientY<70)window.scrollBy(0,-12);else if(e.clientY>innerHeight-70)window.scrollBy(0,12);}
+function endDrag(){const c=drag.chip;c.removeEventListener('pointermove',onMove);c.removeEventListener('pointerup',onUp);c.removeEventListener('pointercancel',onCancel);c.classList.remove('dragging');if(drag.g)drag.g.remove();$$('.over').forEach(x=>x.classList.remove('over'));}
+function onCancel(){if(drag){endDrag();drag=null;}}
+function onUp(e){if(!drag)return;const d=drag;const t=d.moved?target(e.clientX,e.clientY):null;endDrag();drag=null;
+  if(d.moved){if(t)place(d.chip,t);return;}
+  const c=d.chip;
+  if(!c.parentElement.closest('.bank')){place(c,$('.bank',c.closest('.act')));return;}
+  if(selected===c){c.classList.remove('sel');selected=null;return;}
+  if(selected)selected.classList.remove('sel');selected=c;c.classList.add('sel');}
+function place(c,t){const act=c.closest('.act');clearFb(act);c.classList.remove('sel','ok','bad');if(selected===c)selected=null;
+  if(t.classList.contains('slot')){const old=t.querySelector('.chip');if(old&&old!==c)$('.bank',act).appendChild(old);t.appendChild(c);}
+  else if(t.classList.contains('bin'))$('.in',t).appendChild(c);
+  else t.appendChild(c);}
+document.addEventListener('click',e=>{if(!selected)return;if(e.target.closest('.chip'))return;const t=e.target.closest('.drop');if(t&&t.closest('.act')===selected.closest('.act'))place(selected,t);});
+
+/* ---------- activity shell ---------- */
+let counter={};
+function shell(tab,a){const n=a.num?(counter[tab]=parseInt(a.num)):(counter[tab]=(counter[tab]||0)+1);const d=document.createElement('div');d.className='act';d.id=a.id;
+  d.innerHTML=`<h3><span class="num">${a.num||n}</span>${a.title}</h3><div class="hint">${a.hint||''}</div><div class="body"></div><div class="bar"><button class="btn check">Check ✓</button><button class="btn sec show">Show answers</button><button class="btn sec again">Try again ↺</button><span class="score"></span></div><div class="report"></div>`;
+  return d;}
+function build(tabEl,tab,a){const d=shell(tab,a);tabEl.appendChild(d);const T=TYPES[a.type];const api=T(d,a);
+  $('.check',d).onclick=()=>{const r=api.check();R[a.id]=r;setScore(d,r.c,r.t);if(a.after)a.after(d,r);};
+  $('.show',d).onclick=()=>{api.reveal();};
+  $('.again',d).onclick=()=>{$('.body',d).innerHTML='';const n=T(d,a);api.check=n.check;api.reveal=n.reveal;$('.score',d).textContent='';const rp=$('.report',d);rp.classList.remove('show');};
+  if(a.noShow)$('.show',d).remove();}
+
+/* ---------- activity types ---------- */
+const TYPES={
+drag(d,a){const b=$('.body',d);const bank=document.createElement('div');bank.className='bank drop';
+  const words=[...a.slots.map(s=>arr(s.ans)[0]),...(a.extra||[])];shuffle(words).forEach(w=>bank.appendChild(chip(w)));b.appendChild(bank);
+  const box=document.createElement('div');box.className=a.layout==='pics'?'grid-pics':a.layout==='rows'?'rows':'sents';b.appendChild(box);
+  a.slots.forEach((s,i)=>{const el=document.createElement('div');const slot=`<span class="slot drop" data-i="${i}"></span>`;
+    if(a.layout==='pics'){el.className='pic';el.innerHTML=pic(s.img)+slot;}
+    else if(a.layout==='rows'){el.className='row';el.innerHTML=(s.pre?`<span class="lead">${s.pre}</span>`:'')+slot+`<span class="txt">${s.txt||''}</span>`;}
+    else{el.className='sent';el.innerHTML=`<span class="lead">${i+1}.</span> ${s.pre||''} ${slot} ${s.post||''}`;}
+    box.appendChild(el);});
+  return{check(){let c=0;const miss=[];$$('.slot',d).forEach(sl=>{const s=a.slots[sl.dataset.i];const ch=sl.querySelector('.chip');const ok=ch&&arr(s.ans).map(norm).includes(norm(ch.dataset.v));sl.classList.add(ok?'ok':'bad');if(ok)c++;else miss.push(s.tag||arr(s.ans)[0]);});return{c,t:a.slots.length,miss};},
+    reveal(){const bk=$('.bank',d);$$('.slot .chip',d).forEach(x=>bk.appendChild(x));$$('.slot',d).forEach(sl=>{const s=a.slots[sl.dataset.i];const ch=$$('.chip',bk).find(x=>norm(x.dataset.v)===norm(arr(s.ans)[0]));if(ch)sl.appendChild(ch);sl.classList.remove('bad');sl.classList.add('ok');});}};},
+sort(d,a){const b=$('.body',d);const bank=document.createElement('div');bank.className='bank drop';shuffle(a.items).forEach(it=>bank.appendChild(chip(it.t,{bin:it.bin})));b.appendChild(bank);
+  const bins=document.createElement('div');bins.className='bins';a.bins.forEach(bn=>{const x=document.createElement('div');x.className='bin drop';x.dataset.bin=bn.id;x.innerHTML=`<h4>${bn.name}</h4><div class="rule">${bn.rule}</div><div class="in"></div>`;bins.appendChild(x);});b.appendChild(bins);
+  return{check(){let c=0;const miss=[];$$('.chip',d).forEach(ch=>{const bin=ch.closest('.bin');const ok=bin&&bin.dataset.bin===ch.dataset.bin;if(bin)ch.classList.add(ok?'ok':'bad');if(ok)c++;else miss.push(ch.dataset.v);});return{c,t:a.items.length,miss};},
+    reveal(){$$('.chip',d).forEach(ch=>{const bin=$(`.bin[data-bin="${ch.dataset.bin}"] .in`,d);bin.appendChild(ch);ch.classList.remove('bad');ch.classList.add('ok');});}};},
+mc(d,a){const b=$('.body',d);let first={};
+  a.items.forEach((it,i)=>{const q=document.createElement('div');q.className='mcq';q.innerHTML=`<div class="q">${i+1}. ${it.q}</div><div class="opts"></div><div class="why">${it.why||''}</div>`;
+    const order=a.keep?it.o.map((_,k)=>k):shuffle(it.o.map((_,k)=>k));
+    order.forEach(k=>{const o=document.createElement('button');o.className='opt';o.innerHTML=it.o[k];o.onclick=()=>{if(q.dataset.done)return;const ok=k===it.a;o.classList.add(ok?'ok':'bad');if(!(i in first))first[i]=ok;if(ok){q.dataset.done=1;$('.why',q).classList.add('show');}};$('.opts',q).appendChild(o);});
+    b.appendChild(q);});
+  return{check(){let c=0;const miss=[];a.items.forEach((it,i)=>{if(first[i])c++;else miss.push(it.tag||('#'+(i+1)));});return{c,t:a.items.length,miss};},
+    reveal(){$$('.mcq',d).forEach((q,i)=>{const it=a.items[i];$$('.opt',q).forEach(o=>{if(o.innerHTML===it.o[it.a])o.classList.add('ok');});q.dataset.done=1;$('.why',q).classList.add('show');});}};},
+type(d,a){const b=$('.body',d);
+  if(a.table){const t=document.createElement('table');t.className='forms';t.innerHTML=`<tr>${a.table.map(h=>`<th>${h}</th>`).join('')}</tr>`;
+    a.items.forEach((it,i)=>{const tr=document.createElement('tr');tr.innerHTML=`<td><b>${it.q}</b></td>`+it.a.map((_,k)=>`<td><input class="ti" data-i="${i}" data-k="${k}" autocomplete="off" autocapitalize="off" spellcheck="false"></td>`).join('');t.appendChild(tr);});b.appendChild(t);}
+  else a.items.forEach((it,i)=>{const q=document.createElement('div');q.className='tq';let k=0;
+    q.innerHTML=`<span class="lead">${i+1}.</span> `+it.q.replace(/\{\}/g,()=>`<input class="ti${a.wide?' wide':''}" data-i="${i}" data-k="${k++}" autocomplete="off" autocapitalize="off" spellcheck="false">`);
+    if(!it.q.includes('{}')){q.innerHTML+=`<input class="ti wide" data-i="${i}" data-k="0" autocomplete="off" autocapitalize="off" spellcheck="false">`;}
+    b.appendChild(q);});
+  $$('input',b).forEach(inp=>inp.addEventListener('input',()=>{inp.classList.remove('ok','bad');}));
+  return{check(){let c=0,t=0;const miss=[];$$('input.ti',d).forEach(inp=>{const it=a.items[inp.dataset.i];const acc=arr(it.a[inp.dataset.k]);t++;const v=norm(inp.value);const ok=v&&(acc.includes('*')||acc.map(norm).includes(v));inp.classList.add(ok?'ok':'bad');if(ok)c++;else miss.push(it.tag||arr(acc)[0]);});return{c,t,miss};},
+    reveal(){$$('.sol',d).forEach(x=>x.remove());$$('input.ti',d).forEach(inp=>{const it=a.items[inp.dataset.i];const acc=arr(it.a[inp.dataset.k]);const s=document.createElement('span');s.className='sol';s.textContent='→ '+(acc[0]==='*'?'(free answer)':acc[0]);inp.after(s);});}};},
+order(d,a){const b=$('.body',d);
+  a.items.forEach((it,i)=>{const q=document.createElement('div');q.className='oq';q.innerHTML=`<div><span class="lead">${i+1}.</span><span class="hint">${it.hint||'Tap the words in order.'}</span></div><div class="built"></div><div class="pool"></div>`;
+    const words=it.a[0].replace(/[?.]$/,'').split(' ');shuffle(words).forEach(w=>{const t=document.createElement('button');t.className='tile';t.textContent=w;t.onclick=()=>{const bl=$('.built',q);bl.classList.remove('ok','bad');(t.parentElement===bl?$('.pool',q):bl).appendChild(t);};$('.pool',q).appendChild(t);});
+    b.appendChild(q);});
+  return{check(){let c=0;const miss=[];$$('.oq',d).forEach((q,i)=>{const s=$$('.built .tile',q).map(t=>t.textContent).join(' ');const ok=a.items[i].a.map(norm).includes(norm(s));$('.built',q).classList.add(ok?'ok':'bad');if(ok)c++;else miss.push(a.items[i].a[0]);});return{c,t:a.items.length,miss};},
+    reveal(){$$('.oq',d).forEach((q,i)=>{const bl=$('.built',q),pool=$('.pool',q);$$('.tile',bl).forEach(t=>pool.appendChild(t));a.items[i].a[0].replace(/[?.]$/,'').split(' ').forEach(w=>{const t=$$('.tile',pool).find(x=>x.textContent===w);if(t)bl.appendChild(t);});bl.classList.remove('bad');bl.classList.add('ok');});}};},
+hl(d,a){const b=$('.body',d);let mode='c';
+  const m=document.createElement('div');m.className='mode';m.innerHTML='<button class="mc on" data-m="c">Comparative</button><button class="ms" data-m="s">Superlative</button><button class="mx" data-m="x">Eraser</button>';
+  $$('button',m).forEach(x=>x.onclick=()=>{mode=x.dataset.m;$$('button',m).forEach(y=>y.classList.toggle('on',y===x));});b.appendChild(m);
+  a.items.forEach((s,i)=>{const p=document.createElement('div');p.className='sent';let h=`<span class="lead">${i+1}.</span> `;let last=0;const re=/\[(c|s):([^\]]+)\]/g;let mm;
+    const plain=t=>t.split(/(\s+)/).map(w=>/^\s*$/.test(w)?w:`<span class="tok">${w}</span>`).join('');
+    while((mm=re.exec(s))){h+=plain(s.slice(last,mm.index));h+=`<span class="tok" data-t="${mm[1]}">${mm[2]}</span>`;last=re.lastIndex;}
+    h+=plain(s.slice(last));p.innerHTML=h;b.appendChild(p);});
+  $$('.tok',b).forEach(t=>t.onclick=()=>{clearFb(d);$$('.tok',d).forEach(x=>x.classList.remove('okm','badm'));t.classList.remove('c','s');if(mode!=='x')t.classList.add(mode);});
+  return{check(){let c=0,t=0;const miss=[];$$('.tok',d).forEach(x=>{x.classList.remove('okm','badm');const want=x.dataset.t;const got=x.classList.contains('c')?'c':x.classList.contains('s')?'s':'';
+      if(want){t++;if(got===want){c++;x.classList.add('okm');}else{x.classList.add('badm');miss.push(x.textContent);}}else if(got){x.classList.add('badm');c=Math.max(0,c-1);}});return{c,t,miss};},
+    reveal(){$$('.tok',d).forEach(x=>{x.classList.remove('c','s','okm','badm');if(x.dataset.t){x.classList.add(x.dataset.t,'okm');}});}};}
+};
+
+/* ---------- data ---------- */
+const V=[
+{w:'valley',es:'valle',def:'Low land between hills or mountains.'},
+{w:'waterfalls',es:'cataratas / cascada',def:'Water that falls from a high place, like Iguazú.'},
+{w:'canyon',es:'cañón',def:'A very deep valley with high walls of rock and a river at the bottom.'},
+{w:'desert',es:'desierto',def:'A very dry place with a lot of sand and very little rain.'},
+{w:'river',es:'río',def:'Water that moves across the land to the sea, like the Paraná.'},
+{w:'forest',es:'bosque',def:'A big area with a lot of trees.'},
+{w:'island',es:'isla',def:'Land with water all around it.'},
+{w:'cave',es:'cueva',def:'A big hole in a mountain or under the ground.'},
+{w:'ocean',es:'océano',def:'A very, very big area of salt water, like the Atlantic.'},
+{w:'rainforest',es:'selva tropical',def:'A hot, wet forest where it rains a lot, like the Amazon.'},
+{w:'lake',es:'lago',def:'An area of water with land all around it, like Nahuel Huapi.'},
+{w:'beach',es:'playa',def:'An area of sand next to the sea.'},
+{w:'reef',es:'arrecife',def:'A line of rocks or coral in the sea, near the surface. Fish love it!'},
+{w:'mountain',es:'montaña',def:'A very high hill, like Aconcagua.'}];
+const PARTS=[['val','ley'],['water','falls'],['can','yon'],['des','ert'],['ri','ver'],['for','est'],['isl','and'],['ca','ve'],['oc','ean'],['rain','forest'],['la','ke'],['be','ach'],['re','ef'],['mount','ain']];
+
+const TABS=[
+{id:'vocab',name:'1 · Vocabulary',intro:'<h2>Geographical features</h2>The 14 words of Unit 4. Arrastrá cada palabra a su lugar (o tocá la palabra y después el espacio).',acts:[
+ {id:'v1',type:'drag',layout:'pics',title:'Pictures → words',hint:'Drag each word to the right picture. / Arrastrá cada palabra a su imagen.',slots:shuffle(V).map(v=>({img:v.w,ans:v.w,tag:v.w}))},
+ {id:'v2',type:'drag',layout:'rows',title:'Words → definitions',hint:'Drag each word next to its definition. / Arrastrá la palabra a su definición.',slots:shuffle(V).map(v=>({txt:v.def,ans:v.w,tag:v.w}))},
+ {id:'v3',type:'drag',layout:'rows',title:'Match the columns (Workbook, ex. 1)',hint:'Complete each word with its ending, like in your workbook. / Completá cada palabra con su final.',slots:shuffle(PARTS).map(p=>({pre:p[0]+' +',ans:p[1],tag:p[0]+p[1],txt:''}))},
+ {id:'v4',type:'type',title:'Integrated activity: what do I need to review?',hint:'Write the missing word. The first letter helps you. Then press Check to see your report. / Escribí la palabra que falta. Al corregir vas a ver qué palabras reforzar.',noShowEarly:true,items:[
+  {q:'Many tourists visit the Iguazú w{} every year.',a:[['waterfalls','falls']],tag:'waterfalls'},
+  {q:'The Sahara is a big d{} in Africa.',a:[['esert']],tag:'desert'},
+  {q:'The Paraná is a long r{} in South America.',a:[['iver']],tag:'river'},
+  {q:'Aconcagua is the highest m{} in South America.',a:[['ountain']],tag:'mountain'},
+  {q:'Most people love the warm b{} in Brazil.',a:[['eaches','each']],tag:'beach'},
+  {q:'Tierra del Fuego is an i{}.',a:[['sland']],tag:'island'},
+  {q:'It rains a lot in the Amazon R{}.',a:[['ainforest']],tag:'rainforest'},
+  {q:'Bats sleep in dark c{}.',a:[['aves','ave']],tag:'cave'},
+  {q:'The Atlantic O{} is next to Argentina.',a:[['cean']],tag:'ocean'},
+  {q:'Bariloche has mountains and beautiful l{}.',a:[['akes','ake']],tag:'lake'},
+  {q:'On Palancar r{} in Cozumel, there are a lot of fish and coral.',a:[['eef']],tag:'reef'},
+  {q:'The Grand C{} in the USA is very deep.',a:[['anyon']],tag:'canyon'},
+  {q:'There is a green v{} between the two mountains.',a:[['alley']],tag:'valley'},
+  {q:'There are a lot of trees in the f{}.',a:[['orest']],tag:'forest'}],
+  after:vocabReport}
+]},
+{id:'adj',name:'2 · Adjectives',intro:'<h2>Comparatives &amp; superlatives</h2><b>Comparative</b> = compare <b>two</b> things (bigger <b>than</b>, more beautiful <b>than</b>). <b>Superlative</b> = compare <b>three or more</b> (<b>the</b> biggest, <b>the most</b> beautiful).',acts:[
+ {id:'a1',type:'drag',layout:'rows',num:'1a',title:'Adjectives from the book + translation (part 1)',hint:'Drag the Spanish translation next to each adjective.',slots:shuffle([['warm','cálido/a'],['big','grande'],['small','pequeño/a'],['long','largo/a'],['high','alto/a (montaña)'],['tall','alto/a (persona, edificio)'],['hot','caluroso/a, caliente'],['cold','frío/a'],['dry','seco/a'],['old','viejo/a, antiguo/a'],['cheap','barato/a'],['expensive','caro/a']]).map(p=>({pre:p[0],ans:p[1],tag:p[0]}))},
+ {id:'a1b',type:'drag',layout:'rows',num:'1b',title:'Adjectives from the book + translation (part 2)',hint:'Drag the Spanish translation next to each adjective.',slots:shuffle([['healthy','saludable'],['happy','feliz'],['quiet','tranquilo/a, silencioso/a'],['beautiful','hermoso/a'],['dangerous','peligroso/a'],['amazing','asombroso/a'],['impressive','impresionante'],['interesting','interesante'],['comfortable','cómodo/a'],['colourful','colorido/a'],['useful','útil'],['good','bueno/a'],['bad','malo/a'],['unusual','poco común, inusual']]).map(p=>({pre:p[0],ans:p[1],tag:p[0]}))},
+ {id:'a2',type:'sort',title:'Sort the adjectives into groups',hint:'Drag each adjective to its group. Look at how it is written: short or long? Does it repeat a letter? / Ubicá cada adjetivo según cómo se escribe.',
+  bins:[{id:'s',name:'Short: + er / + est',rule:'warm → warmer → the warmest'},{id:'e',name:'Ends in -e: + r / + st',rule:'large → larger → the largest'},{id:'d',name:'Repeats the consonant',rule:'big → bigger → the biggest'},{id:'y',name:'-y → -ier / -iest',rule:'dry → drier → the driest'},{id:'l',name:'Long: more / the most',rule:'beautiful → more beautiful → the most beautiful'},{id:'i',name:'Irregular',rule:'good → better → the best'}],
+  items:[...['warm','small','long','cold','old','tall','high','cheap','quiet'].map(t=>({t,bin:'s'})),...['large','nice','safe'].map(t=>({t,bin:'e'})),...['big','hot','wet'].map(t=>({t,bin:'d'})),...['dry','healthy','happy','easy','noisy'].map(t=>({t,bin:'y'})),...['dangerous','amazing','useful','beautiful','impressive','interesting','comfortable','colourful','expensive','modern','unusual'].map(t=>({t,bin:'l'})),...['good','bad'].map(t=>({t,bin:'i'}))]},
+ {id:'a3',type:'hl',title:'Highlight: comparative or superlative?',hint:'Choose a colour and tap the words. Yellow = comparative, blue = superlative. / Elegí el color y tocá las palabras.',items:[
+  'The Nile is [s:the longest] river in the world.','Beaches in Argentina are [c:colder than] the beaches in the Caribbean.','Aconcagua is [s:the highest] mountain in South America.','Deserts are [c:drier than] rainforests.','Snorkelling is [c:more unusual than] swimming.','New York is one of [s:the most impressive] cities in the world.','The Iguazú Falls are [s:the most amazing] waterfalls in America.','Winter is [c:colder than] autumn.','The Sahara is [s:the largest] hot desert in the world.','Our classroom is [c:bigger than] the one next door.']},
+ {id:'a4',type:'type',title:'Complete the table (Workbook, ex. 3)',hint:'Write the comparative and the superlative. Remember "the" in the superlative!',table:['Adjective','Comparative','Superlative'],items:[
+  {q:'long',a:[['longer'],['the longest']]},{q:'hot',a:[['hotter'],['the hottest']]},{q:'dry',a:[['drier'],['the driest']]},{q:'healthy',a:[['healthier'],['the healthiest']]},{q:'beautiful',a:[['more beautiful'],['the most beautiful']]},{q:'good',a:[['better'],['the best']]},{q:'bad',a:[['worse'],['the worst']]},{q:'happy',a:[['happier'],['the happiest']]},{q:'impressive',a:[['more impressive'],['the most impressive']]},{q:'big',a:[['bigger'],['the biggest']]},{q:'large',a:[['larger'],['the largest']]},{q:'quiet',a:[['quieter'],['the quietest']]}]},
+ {id:'a5',type:'mc',keep:true,title:'Choose the correct option (Workbook, ex. 4)',hint:'Tap the correct option.',items:[
+  {q:'The Nile is ___ river in the world.',o:['the longer','the longest'],a:1,why:'Compares more than two rivers → superlative.'},
+  {q:'Beaches in Argentina are ___ than the beaches in the Caribbean.',o:['coldest','colder'],a:1,why:'"than" → comparative.'},
+  {q:'Aconcagua is the ___ mountain in South America.',o:['highest','higher'],a:0,why:'"the" + all the mountains → superlative.'},
+  {q:'Deserts are ___ than rainforests.',o:['driest','drier'],a:1,why:'dry → drier (y → ier) + than.'},
+  {q:'Snorkelling is ___ unusual than swimming.',o:['more','most'],a:0,why:'Long adjective + than → more.'},
+  {q:'The Amazon is ___ rainforest in the world.',o:['the biggest','bigger'],a:0,why:'big → the biggest (repeat the g).'},
+  {q:'Lago Argentino is ___ than Nahuel Huapi.',o:['more big','bigger'],a:1,why:'Short adjective → -er, never "more big".'},
+  {q:'Today I feel ___ than yesterday.',o:['gooder','better'],a:1,why:'good is irregular: better, the best.'}]},
+ {id:'a6',type:'drag',layout:'sents',title:'The three paintings (Extra Practice A & B)',hint:'Look at the paintings and drag the correct form. Careful: there are wrong options! / ¡Hay opciones incorrectas!',
+  extra:['more than expensive','the bigest','more cheap','smallest than'],
+  slots:[{pre:"Kim's painting is",ans:'smaller than',post:"Sue's."},{pre:"Sue's painting is",ans:'more colourful than',post:"Kim's."},{pre:"Kim's painting is",ans:'more expensive than',post:"Sue's."},{pre:"Ted's painting is",ans:'cheaper than',post:"Sue's."},{pre:"Ted's painting is",ans:'the smallest',post:'of the three.'},{pre:"Ted's painting is also",ans:'the cheapest',post:'!'},{pre:"Sue's painting is",ans:'the biggest',post:'.'},{pre:"But Kim's painting is",ans:'the most expensive',post:'!'}]},
+ {id:'a7',type:'type',title:'Complete the text about Argentina (like Workbook, ex. 5)',hint:'Write the correct form of the adjective in brackets.',items:[
+  {q:'Argentina is one of the {} (beautiful) countries in South America.',a:[['most beautiful']]},
+  {q:'Aconcagua is {} (high) mountain in the country.',a:[['the highest']]},
+  {q:'It is {} (tall) than any mountain in Europe.',a:[['taller']]},
+  {q:'The Paraná River is {} (long) than the Uruguay River.',a:[['longer']]},
+  {q:'In the north, the Iguazú Falls are {} (impressive) than many other waterfalls.',a:[['more impressive']]},
+  {q:'In the south, Patagonia is {} (cold) and {} (windy) than Buenos Aires.',a:[['colder'],['windier']]},
+  {q:'For me, Bariloche is {} (good) place for holidays!',a:[['the best']]}]},
+ {id:'a8',type:'mc',title:'Find the correct sentence',hint:'These are typical mistakes. Choose the correct sentence. / Elegí la oración correcta.',items:[
+  {q:'(expensive)',o:["Kim's painting is more expensive than Sue's.","Kim's painting is more than expensive Sue's.","Kim's painting is more than Sue's."],a:0,why:'more + adjective + than.'},
+  {q:'(big)',o:["Sue's painting is the biggest.","Sue's painting is the bigest.","Sue's painting is the most big."],a:0,why:'big → biggest (repeat the g).'},
+  {q:'(interesting)',o:['Geocaching is more interesting than trekking.','Geocaching is more interesting trekking.','Geocaching is interestinger than trekking.'],a:0,why:'Don\'t forget "than".'},
+  {q:'(quiet)',o:['Towns are quieter than cities.','Towns are noisier than cities.','Towns are more quiet that cities.'],a:0,why:'Use the adjective in brackets: quiet → quieter.'},
+  {q:'(dangerous)',o:['Tigers are more dangerous than elephants.','Tigers are more than dangerous elephants.','Tigers are dangerouser than elephants.'],a:0,why:'more + dangerous + than.'},
+  {q:'(long)',o:['The Nile is the longest river.','The Nile is the most long river.','The Nile is longest river.'],a:0,why:'Short adjective + the ... -est.'},
+  {q:'(high)',o:['Everest is higher than Aconcagua.','Everest is higher that Aconcagua.','Everest is more high than Aconcagua.'],a:0,why:'"than", not "that".'},
+  {q:'(good)',o:['Today I feel better than yesterday.','Today I feel more good than yesterday.','Today I feel the best than yesterday.'],a:0,why:'good → better → the best.'}]}
+]},
+{id:'short',name:'3 · Short questions',intro:'<h2>Short questions (Yes / No)</h2>Questions with <b>Is / Are / Do / Does / Can</b>. We answer with a <b>short answer</b>: <i>Yes, it is. / No, they don\'t.</i>',info:true,acts:[
+ {id:'q1',type:'drag',layout:'rows',title:'Question → short answer',hint:'Drag the correct short answer. Look at the first word of the question!',slots:[{txt:'Is the Iberian lynx a wild cat?',ans:'Yes, it is.'},{txt:'Are Iberian lynxes in danger?',ans:'Yes, they are.'},{txt:'Do Iberian lynxes live in Spain?',ans:'Yes, they do.'},{txt:'Does the lynx eat meat?',ans:'Yes, it does.'},{txt:'Can lynxes live for 13 years?',ans:'Yes, they can.'},{txt:'Is there a big desert in Africa?',ans:'Yes, there is.'}]},
+ {id:'q2',type:'mc',title:'The Iberian lynx',hint:'Read the lynx card and choose the answer.',items:[
+  {q:'Do Iberian lynxes live in Argentina?',o:["No, they don't.","No, they aren't.","No, it doesn't."],a:0},
+  {q:'Do Iberian lynxes eat meat?',o:['Yes, they do.','Yes, they are.','Yes, they eat.'],a:0},
+  {q:'Are Iberian lynxes wild cats?',o:['Yes, they are.','Yes, they do.','Yes, it is.'],a:0},
+  {q:'Can Iberian lynxes find enough food?',o:["No, they can't.","No, they don't.","No, they aren't."],a:0}]},
+ {id:'q3',type:'mc',keep:true,title:'Choose the first word',hint:'Is, Are, Do, Does or Can?',items:[
+  {q:'___ the Sahara a desert?',o:['Is','Are','Does'],a:0},{q:'___ loggerhead turtles eat jellyfish?',o:['Does','Do','Are'],a:1},{q:'___ Aconcagua in Argentina?',o:['Is','Does','Are'],a:0},{q:'___ the Iguazú Falls in Argentina and Brazil?',o:['Is','Do','Are'],a:2},{q:'___ the lynx eat meat?',o:['Do','Does','Is'],a:1},{q:'___ turtles live for more than 50 years?',o:['Can','Are','Is'],a:0}]},
+ {id:'q4',type:'order',title:'Order the words',hint:'Tap the words to make a question.',items:[{a:['Do lynxes live in Spain?']},{a:['Are turtles in danger?']},{a:['Is the Nile the longest river?']},{a:['Does Argentina have glaciers?']},{a:['Can lynxes live for 13 years?']}]},
+ {id:'q5',type:'type',title:'Write the short answer (Yes)',hint:'Complete the short answer. Example: Yes, it is.',items:[
+  {q:'Is Aconcagua in Argentina? Yes, {}.',a:[['it is']]},{q:'Are lynxes wild cats? Yes, {}.',a:[['they are']]},{q:'Does the Paraná River flow into the Río de la Plata? Yes, {}.',a:[['it does']]},{q:'Do turtles live in the ocean? Yes, {}.',a:[['they do']]},{q:'Can people swim in Lake Nahuel Huapi? Yes, {}.',a:[['they can']]}]},
+ {id:'q6',type:'mc',title:'Short questions with comparatives',hint:'Think about the facts and choose.',items:[
+  {q:'Is the Nile longer than the Paraná?',o:['Yes, it is.',"No, it isn't."],a:0},{q:'Is Everest higher than Aconcagua?',o:['Yes, it is.',"No, it isn't."],a:0},{q:'Are deserts wetter than rainforests?',o:['Yes, they are.',"No, they aren't."],a:1},{q:'Is a lake bigger than an ocean?',o:['Yes, it is.',"No, it isn't."],a:1},{q:"Is Kim's painting more expensive than Sue's?",o:['Yes, it is.',"No, it isn't."],a:0}]},
+ {id:'q7',type:'mc',title:'Short questions with superlatives',hint:'Choose the correct short answer.',items:[
+  {q:'Is Aconcagua the highest mountain in South America?',o:['Yes, it is.',"No, it isn't.",'Yes, it does.'],a:0},{q:'Is the Sahara the smallest desert in the world?',o:['Yes, it is.',"No, it isn't.","No, it doesn't."],a:1},{q:'Is the Amazon the biggest rainforest in the world?',o:['Yes, it is.','Yes, it does.',"No, it isn't."],a:0},{q:"Is Ted's painting the most expensive?",o:["No, it isn't.",'Yes, it is.',"No, it doesn't."],a:0}]},
+ {id:'q8',type:'drag',layout:'rows',title:'Can / Can\'t',hint:'Drag the correct short answer.',extra:['Yes, they do.',"No, they don't."],slots:[{txt:'Can Iberian lynxes live for 13 years?',ans:'Yes, they can.'},{txt:'Can Iberian lynxes find enough food?',ans:"No, they can't."},{txt:'Can loggerhead turtles live in the sea?',ans:['Yes, they can.']},{txt:'Can lynxes live in the ocean?',ans:["No, they can't."]}]},
+ {id:'q9',type:'mc',title:'Is there…? / Are there…?',hint:'Choose the correct answer.',items:[
+  {q:'Is there a desert in Africa?',o:['Yes, there is.','Yes, there are.','Yes, it is.'],a:0},{q:'Are there waterfalls in Misiones?',o:['Yes, there are.','Yes, there is.','Yes, they do.'],a:0},{q:'Is there a reef in Cozumel?',o:['Yes, there is.','Yes, it does.','Yes, there are.'],a:0},{q:'Is there an ocean in Bolivia?',o:["No, there isn't.","No, there aren't.","No, it doesn't."],a:0}]},
+ {id:'q10',type:'type',title:'Write the short answer (No)',hint:"Use the negative: isn't, aren't, don't, doesn't, can't.",items:[
+  {q:'Do Iberian lynxes live in Brazil? No, {}.',a:[["they don't",'they do not']]},{q:'Does the Paraná flow into the Pacific Ocean? No, {}.',a:[["it doesn't",'it does not']]},{q:'Are turtles cats? No, {}.',a:[["they aren't",'they are not',"they're not"]]},{q:'Is Bariloche in the north of Argentina? No, {}.',a:[["it isn't",'it is not',"it's not"]]},{q:'Can lynxes find enough food? No, {}.',a:[["they can't",'they cannot','they can not']]}]},
+ {id:'q11',type:'mc',title:'Correct or wrong?',hint:'Choose the correct short answer.',items:[
+  {q:'Is it a desert?',o:['Yes, it is.',"Yes, it's."],a:0,why:"In short answers with Yes we don't contract: Yes, it is."},{q:'Do turtles eat jellyfish?',o:['Yes, they do.','Yes, they eat.'],a:0,why:'Repeat the auxiliary (do), not the verb.'},{q:'Do lynxes eat plants?',o:["No, they don't.",'No, they not.'],a:0,why:"Negative: don't."},{q:'Does Argentina have glaciers?',o:['Yes, it does.','Yes, it do.'],a:0,why:'it → does.'}]},
+ {id:'q12',type:'type',wide:true,title:'Make the question',hint:'Change the sentence into a Yes/No question.',items:[
+  {q:'Lynxes are wild cats.',a:[['Are lynxes wild cats?','Are they wild cats?']]},{q:'Turtles eat jellyfish.',a:[['Do turtles eat jellyfish?','Do they eat jellyfish?']]},{q:'The Sahara is the largest hot desert.',a:[['Is the Sahara the largest hot desert?']]},{q:'Lynxes can live for 13 years.',a:[['Can lynxes live for 13 years?','Can they live for 13 years?']]},{q:'Argentina has glaciers.',a:[['Does Argentina have glaciers?']]}]}
+]},
+{id:'long',name:'4 · Long questions',intro:'<h2>Long questions (Wh- questions)</h2>They start with a <b>Wh- word</b> and ask for information. Structure: <b>Wh- + do/does/is/are/can + subject + verb?</b> → <i>Where do lynxes live?</i>',info:true,acts:[
+ {id:'w1',type:'drag',layout:'rows',title:'Know your Wh- words',hint:'Drag the Wh- word to its meaning in Spanish.',slots:[{txt:'¿Qué?',ans:'What'},{txt:'¿Dónde?',ans:'Where'},{txt:'¿Cuándo?',ans:'When'},{txt:'¿Quién?',ans:'Who'},{txt:'¿Por qué?',ans:'Why'},{txt:'¿Cuál? (entre opciones)',ans:'Which'},{txt:'¿Cómo?',ans:'How'},{txt:'¿Cuánto tiempo?',ans:'How long'},{txt:'¿Cuántos/as?',ans:'How many'},{txt:'¿Qué altura?',ans:'How high'}]},
+ {id:'w2',type:'drag',layout:'rows',title:'Wh- word → answer',hint:'Which question word asks for this answer?',slots:[{txt:'In Spain.',ans:'Where'},{txt:'Meat.',ans:'What'},{txt:"Because they can't find enough food.",ans:'Why'},{txt:'For 13 years.',ans:'How long'},{txt:'The Nile.',ans:'Which'},{txt:'Sue Taylor.',ans:'Who'},{txt:'In winter.',ans:'When'},{txt:'Three paintings.',ans:'How many'},{txt:'About 6,960 metres.',ans:'How high'}]},
+ {id:'w3',type:'mc',title:'Choose the Wh- word',hint:'Read the answer and choose the question word.',items:[
+  {q:'___ do Iberian lynxes live? — In Spain.',o:['Where','What','Why'],a:0},{q:'___ do loggerhead turtles eat? — Jellyfish and crabs.',o:['What','Where','Who'],a:0},{q:'___ are lynxes in danger? — Because people kill them.',o:['Why','What','How long'],a:0},{q:'___ can lynxes live? — For 13 years.',o:['How long','How many','When'],a:0},{q:'___ is the longest river in the world? — The Nile.',o:['Which','Who','Where'],a:0},{q:"___ painted the cheapest painting? — Ted Brit.",o:['Who','What','Which'],a:0},{q:'___ is Aconcagua? — About 6,960 metres.',o:['How high','How long','How many'],a:0}]},
+ {id:'w4',type:'order',title:'Order the words',hint:'Tap the words to make a Wh- question.',items:[{a:['Where do loggerhead turtles live?']},{a:['What do lynxes eat?']},{a:['Why are lynxes in danger?']},{a:['How long can turtles live?']},{a:['Which is the highest mountain in Argentina?']}]},
+ {id:'w5',type:'drag',layout:'rows',title:'In pairs: the turtle file',hint:'Drag the correct question to each part of the file (Student B asks these questions).',slots:[{pre:'Habitat',ans:'Where do they live?'},{pre:'Food',ans:'What do they eat?'},{pre:'Life span',ans:'How long can they live?'},{pre:'In danger? Why?',ans:'Are they in danger? Why?'}],extra:['Where they live?','What they eat?']},
+ {id:'w6',type:'type',title:'Questions about your country (Student\'s Book, ex. 2)',hint:'Complete with the superlative. Then write the answer.',items:[
+  {q:'Which is {} (high) mountain in Argentina? Answer: {}',a:[['the highest'],['Aconcagua','aconcagua']]},{q:'Which is {} (long) river in Argentina? Answer: {}',a:[['the longest'],['the paraná','paraná','parana','the parana','the paraná river','paraná river']]},{q:'Which is {} (big) lake in Argentina? Answer: {}',a:[['the biggest'],['lago argentino','lake argentino']]},{q:'Which is {} (beautiful) beach in Argentina? Answer: {}',a:[['the most beautiful'],['*']]}]},
+ {id:'w7',type:'type',wide:true,title:'Write the question',hint:'Write a question for the words in bold.',items:[
+  {q:'Iberian lynxes live <b>in Spain</b>.',a:[['Where do Iberian lynxes live?','Where do lynxes live?','Where do they live?']]},{q:'Loggerhead turtles eat <b>jellyfish</b>.',a:[['What do loggerhead turtles eat?','What do turtles eat?','What do they eat?']]},{q:'Lynxes can live <b>for 13 years</b>.',a:[['How long can lynxes live?','How long can they live?','How long can Iberian lynxes live?']]},{q:'Lynxes are in danger <b>because people kill them</b>.',a:[['Why are lynxes in danger?','Why are they in danger?','Why are Iberian lynxes in danger?']]},{q:'<b>The Nile</b> is the longest river in the world.',a:[['Which is the longest river in the world?','What is the longest river in the world?']]},{q:'Aconcagua is <b>in Argentina</b>.',a:[['Where is Aconcagua?']]}]},
+ {id:'w8',type:'mc',title:'Correct or wrong?',hint:'Choose the correct question.',items:[
+  {q:'',o:['Where do lynxes live?','Where lynxes live?'],a:0,why:'Wh- + do + subject + verb.'},{q:'',o:['What do turtles eat?','What turtles eat?'],a:0,why:'Don\'t forget "do".'},{q:'',o:['Why are lynxes in danger?','Why lynxes are in danger?'],a:0,why:'Wh- + are + subject.'},{q:'',o:['Which is the highest mountain?','Which is the most high mountain?'],a:0,why:'high → the highest.'},{q:'',o:['How long can turtles live?','How long turtles can live?'],a:0,why:'Wh- + can + subject + verb.'}]}
+]},
+{id:'test',name:'5 · Final test',intro:'<h2>Final test · 10 points</h2>10 questions, 1 point each. Choose one option in each question and press <b>Correct my test</b> at the end. / 10 preguntas, 1 punto cada una.',acts:[]}
+];
+
+const EVAL=[
+ {q:'A very dry place with a lot of sand and very little rain is a…',o:['valley','desert','reef','cave'],a:1,topic:'Vocabulary'},
+ {q:'Many tourists visit the Iguazú ___ every year.',o:['Waterfalls','Canyons','Islands','Valleys'],a:0,topic:'Vocabulary'},
+ {q:'Land with water all around it is an…',o:['ocean','island','forest','river'],a:1,topic:'Vocabulary'},
+ {q:'The comparative of <b>big</b> is…',o:['biger','more big','bigger','the biggest'],a:2,topic:'Comparatives'},
+ {q:'Aconcagua is ___ mountain in South America.',o:['higher','the highest','the most high','highest than'],a:1,topic:'Superlatives'},
+ {q:'Deserts are ___ rainforests.',o:['drier than','more dry than','the driest','dry than'],a:0,topic:'Comparatives'},
+ {q:'Do Iberian lynxes eat meat?',o:['Yes, they are.','Yes, they eat.','Yes, they do.','Yes, it does.'],a:2,topic:'Short questions'},
+ {q:'___ the Sahara the largest hot desert in the world?',o:['Does','Is','Are','Do'],a:1,topic:'Short questions'},
+ {q:'___ do loggerhead turtles live? — In the ocean.',o:['What','Why','How long','Where'],a:3,topic:'Long questions'},
+ {q:'Choose the correct question:',o:['Which is the longer river in Argentina?','Which the longest river is in Argentina?','Which is the longest river in Argentina?','Which is the most long river in Argentina?'],a:2,topic:'Long questions'}];
+
+/* ---------- vocab report ---------- */
+function vocabReport(d,r){const rp=$('.report',d);const miss=new Set(r.miss);const parts=[];
+  ['v1','v2','v3'].forEach(id=>{if(R[id])R[id].miss.forEach(m=>miss.add(m));});
+  const names={v1:'Pictures',v2:'Definitions',v3:'Match the columns',v4:'Integrated'};
+  const done=Object.keys(names).filter(id=>R[id]).map(id=>`${names[id]}: <b>${R[id].c}/${R[id].t}</b>`).join(' · ');
+  const notDone=['v1','v2','v3'].filter(id=>!R[id]).length;
+  let h=`<h4>Your report / Tu informe</h4><div>${done}</div>`;
+  if(notDone)h+=`<div class="hint">Tip: do (and check) activities 1, 2 and 3 too for a full report.</div>`;
+  const list=V.filter(v=>miss.has(v.w));
+  if(!list.length)h+='<p><b>Excellent!</b> You know all the words. 🎉</p>';
+  else h+=`<p>Review these words (${list.length}) / Repasá estas palabras:</p><div class="missed">${list.map(v=>`<div>${pic(v.w)}<b>${v.w}</b><br>${v.es}</div>`).join('')}</div>`;
+  rp.innerHTML=h;rp.classList.add('show');}
+
+/* ---------- render ---------- */
+const nav=$('#tabs'),app=$('#app');
+const INFO=`<div class="info"><div class="card"><h4>Iberian lynxes</h4><ul><li>They are wild cats.</li><li>They eat meat.</li><li>They live in Spain.</li><li>They can live for 13 years.</li><li>In danger: they can't find enough food; people kill them.</li></ul></div><div class="card"><h4>Loggerhead turtles</h4><ul><li>They live in warm oceans and seas.</li><li>They eat jellyfish, crabs and shellfish.</li><li>They can live for more than 50 years.</li><li>In danger: plastic in the sea and fishing nets.</li></ul></div></div>`;
+TABS.forEach((t,i)=>{const b=document.createElement('button');b.textContent=t.name;b.dataset.t=t.id;b.onclick=()=>show(t.id);nav.appendChild(b);
+  const s=document.createElement('section');s.className='tab';s.id='tab-'+t.id;s.innerHTML=`<div class="intro">${t.intro}</div>`+(t.info?INFO:'');app.appendChild(s);
+  if(t.id==='adj'){/* paintings before a6 */}
+  t.acts.forEach(a=>{build(s,t.id,a);if(a.id==='a6'){const d=$('#a6 .body');const f=document.createElement('div');f.className='paintings';f.innerHTML=`<figure>${PAINT.sue}<figcaption>$1,000 · Sue Taylor</figcaption></figure><figure>${PAINT.kim}<figcaption>$2,000 · Kim Kent</figcaption></figure><figure>${PAINT.ted}<figcaption>$500 · Ted Brit</figcaption></figure>`;d.prepend(f);
+    const again=$('#a6 .again');const old=again.onclick;again.onclick=()=>{old();$('#a6 .body').prepend(f);};}});
+  if(t.id==='test')buildTest(s);});
+function show(id){$$('section.tab').forEach(s=>s.classList.toggle('on',s.id==='tab-'+id));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===id));history.replaceState(null,'','#'+id);window.scrollTo({top:0});}
+show((location.hash||'#vocab').slice(1)&&TABS.some(t=>'#'+t.id===location.hash)?location.hash.slice(1):'vocab');
+
+function buildTest(s){const d=document.createElement('div');d.className='act';d.innerHTML='<div class="body"></div><div class="bar"><button class="btn check">Correct my test ✓</button><button class="btn sec again">Start again ↺</button></div><div class="report"></div>';s.appendChild(d);
+  const body=$('.body',d);const picks={};
+  EVAL.forEach((it,i)=>{const q=document.createElement('div');q.className='mcq';q.innerHTML=`<div class="q">${i+1}. ${it.q} <span class="tag">1 point</span></div><div class="opts"></div><div class="why"></div>`;
+    it.o.forEach((o,k)=>{const b=document.createElement('button');b.className='opt';b.innerHTML=String.fromCharCode(97+k)+') '+o;b.onclick=()=>{if(d.dataset.done)return;picks[i]=k;$$('.opt',q).forEach(x=>x.classList.remove('picked'));b.classList.add('picked');};$('.opts',q).appendChild(b);});
+    body.appendChild(q);});
+  $('.check',d).onclick=()=>{const missing=EVAL.map((_,i)=>i).filter(i=>!(i in picks));if(missing.length&&!d.dataset.warned){d.dataset.warned=1;alertBox(d,`You didn't answer question(s): ${missing.map(i=>i+1).join(', ')}. Press again to correct anyway.`);return;}
+    d.dataset.done=1;let c=0;const weak={};
+    $$('.mcq',d).forEach((q,i)=>{const it=EVAL[i];const ops=$$('.opt',q);ops[it.a].classList.add('ok');if(picks[i]===it.a)c++;else{if(i in picks)ops[picks[i]].classList.add('bad');weak[it.topic]=(weak[it.topic]||0)+1;}
+      const w=$('.why',q);w.textContent=picks[i]===it.a?'✓ 1 point':'✗ 0 points';w.classList.add('show');});
+    const rp=$('.report',d);const msg=c>=9?'Excellent! You are ready.':c>=7?'Very good! Review the topics below.':c>=5?'Good. Practise the topics below again.':'Go back to the tabs and practise again.';
+    rp.innerHTML=`<div class="big-score">${c} / 10</div><p><b>${msg}</b></p>`+(Object.keys(weak).length?`<p>To review / Para reforzar: ${Object.entries(weak).map(([k,v])=>`<b>${k}</b> (${v})`).join(' · ')}</p>`:'');rp.classList.add('show');rp.scrollIntoView({behavior:'smooth',block:'center'});};
+  $('.again',d).onclick=()=>{d.remove();buildTest(s);};}
+function alertBox(d,t){const rp=$('.report',d);rp.innerHTML=`<p>${t}</p>`;rp.classList.add('show');}
+</script>
+</body>
+</html>
