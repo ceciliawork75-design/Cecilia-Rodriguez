@@ -236,7 +236,7 @@ type(d,a){const b=$('.body',d);
     b.appendChild(q);});
   $$('input',b).forEach(inp=>inp.addEventListener('input',()=>{inp.classList.remove('ok','bad');}));
   return{check(){let c=0,t=0;const miss=[];$$('input.ti',d).forEach(inp=>{const it=a.items[inp.dataset.i];const acc=arr(it.a[inp.dataset.k]);t++;const v=norm(inp.value);const ok=v&&(acc.includes('*')||acc.map(norm).includes(v));inp.classList.add(ok?'ok':'bad');if(ok)c++;else miss.push(it.tag||arr(acc)[0]);});return{c,t,miss};},
-    reveal(){$$('.sol',d).forEach(x=>x.remove());$$('input.ti',d).forEach(inp=>{const it=a.items[inp.dataset.i];const acc=arr(it.a[inp.dataset.k]);const s=document.createElement('span');s.className='sol';s.textContent='→ '+(acc[0]==='*'?'(free answer)':acc[0]);inp.after(s);});}};},
+    reveal(){$$('.sol',d).forEach(x=>x.remove());$$('input.ti',d).forEach(inp=>{const it=a.items[inp.dataset.i];const acc=arr(it.a[inp.dataset.k]);const s=document.createElement('span');s.className='sol';s.textContent='→ '+(acc.find(x=>x!=='*')||'(free answer)');inp.after(s);});}};},
 order(d,a){const b=$('.body',d);
   a.items.forEach((it,i)=>{const q=document.createElement('div');q.className='oq';q.innerHTML=`<div><span class="lead">${i+1}.</span><span class="hint">${it.hint||'Tap the words in order.'}</span></div><div class="built"></div><div class="pool"></div>`;
     const words=it.a[0].replace(/[?.]$/,'').split(' ');shuffle(words).forEach(w=>{const t=document.createElement('button');t.className='tile';t.textContent=w;t.onclick=()=>{const bl=$('.built',q);bl.classList.remove('ok','bad');(t.parentElement===bl?$('.pool',q):bl).appendChild(t);};$('.pool',q).appendChild(t);});
@@ -374,7 +374,32 @@ const TABS=[
  {id:'w7',type:'type',wide:true,title:'Write the question',hint:'Write a question for the words in bold.',items:[
   {q:'Iberian lynxes live <b>in Spain</b>.',a:[['Where do Iberian lynxes live?','Where do lynxes live?','Where do they live?']]},{q:'Loggerhead turtles eat <b>jellyfish</b>.',a:[['What do loggerhead turtles eat?','What do turtles eat?','What do they eat?']]},{q:'Lynxes can live <b>for 13 years</b>.',a:[['How long can lynxes live?','How long can they live?','How long can Iberian lynxes live?']]},{q:'Lynxes are in danger <b>because people kill them</b>.',a:[['Why are lynxes in danger?','Why are they in danger?','Why are Iberian lynxes in danger?']]},{q:'<b>The Nile</b> is the longest river in the world.',a:[['Which is the longest river in the world?','What is the longest river in the world?']]},{q:'Aconcagua is <b>in Argentina</b>.',a:[['Where is Aconcagua?']]}]},
  {id:'w8',type:'mc',title:'Correct or wrong?',hint:'Choose the correct question.',items:[
-  {q:'',o:['Where do lynxes live?','Where lynxes live?'],a:0,why:'Wh- + do + subject + verb.'},{q:'',o:['What do turtles eat?','What turtles eat?'],a:0,why:'Don\'t forget "do".'},{q:'',o:['Why are lynxes in danger?','Why lynxes are in danger?'],a:0,why:'Wh- + are + subject.'},{q:'',o:['Which is the highest mountain?','Which is the most high mountain?'],a:0,why:'high → the highest.'},{q:'',o:['How long can turtles live?','How long turtles can live?'],a:0,why:'Wh- + can + subject + verb.'}]}
+  {q:'',o:['Where do lynxes live?','Where lynxes live?'],a:0,why:'Wh- + do + subject + verb.'},{q:'',o:['What do turtles eat?','What turtles eat?'],a:0,why:'Don\'t forget "do".'},{q:'',o:['Why are lynxes in danger?','Why lynxes are in danger?'],a:0,why:'Wh- + are + subject.'},{q:'',o:['Which is the highest mountain?','Which is the most high mountain?'],a:0,why:'high → the highest.'},{q:'',o:['How long can turtles live?','How long turtles can live?'],a:0,why:'Wh- + can + subject + verb.'}]},
+ {id:'w9',type:'type',wide:true,title:'Write questions using the prompts. Then answer them.',hint:'Escribí la pregunta con las palabras dadas (agregá do / does / is / are / can) y después respondela. Use the lynx and turtle cards.',items:[
+  {q:'<b>lynxes / be / wild cats?</b><br>Q: {}<br>A: {}',a:[['Are lynxes wild cats?','Are Iberian lynxes wild cats?'],['Yes, they are.']]},
+  {q:'<b>Where / loggerhead turtles / live?</b><br>Q: {}<br>A: {}',a:[['Where do loggerhead turtles live?','Where do turtles live?'],['They live in warm oceans and seas.','*']]},
+  {q:'<b>lynxes / eat / meat?</b><br>Q: {}<br>A: {}',a:[['Do lynxes eat meat?','Do Iberian lynxes eat meat?'],['Yes, they do.']]},
+  {q:'<b>What / turtles / eat?</b><br>Q: {}<br>A: {}',a:[['What do turtles eat?','What do loggerhead turtles eat?'],['They eat jellyfish, crabs and shellfish.','*']]},
+  {q:'<b>Aconcagua / be / the highest mountain in South America?</b><br>Q: {}<br>A: {}',a:[['Is Aconcagua the highest mountain in South America?'],['Yes, it is.']]},
+  {q:'<b>Why / lynxes / be / in danger?</b><br>Q: {}<br>A: {}',a:[['Why are lynxes in danger?','Why are Iberian lynxes in danger?'],["Because they can't find enough food and people kill them.",'*']]},
+  {q:'<b>How long / lynxes / can / live?</b><br>Q: {}<br>A: {}',a:[['How long can lynxes live?','How long can Iberian lynxes live?'],['They can live for 13 years.','*']]},
+  {q:'<b>Argentina / have / glaciers?</b><br>Q: {}<br>A: {}',a:[['Does Argentina have glaciers?'],['Yes, it does.']]}]},
+ {id:'w10',type:'mc',title:'Questions in the past: Was / Were / Did',hint:'<div class="card" style="margin:6px 0 4px"><b>Past questions</b><br>• <b>be</b> → <b>Was / Were</b> + subject…? → Yes, he was. / No, they weren\'t.<br>• Other verbs → <b>Did</b> + subject + verb <b>(base form)</b>? → Yes, he did. / No, she didn\'t.<br>• <b>Who</b> as the subject → no did: <b>Who created Mafalda?</b></div>',items:[
+  {q:'___ Quino a famous cartoonist?',o:['Was','Were','Did'],a:0,why:'be + he → Was.'},
+  {q:'___ Mafalda and her friends funny?',o:['Were','Was','Did'],a:0,why:'be + they → Were.'},
+  {q:'___ Quino create Mafalda?',o:['Did','Was','Does'],a:0,why:'Other verb in the past → Did.'},
+  {q:'Who ___ Mafalda?',o:['created','did create','did created'],a:0,why:'Who is the subject → no did: Who created Mafalda?'},
+  {q:'Did he ___ speeches about education?',o:['give','gave','gives'],a:0,why:'After did → base form: give.'},
+  {q:'Did adults love Mafalda\'s stories?',o:['Yes, they did.','Yes, they were.','Yes, they loved.'],a:0,why:'Did → Yes, they did.'}]},
+ {id:'w11',type:'type',wide:true,title:'Quino and Mafalda: write questions using the prompts. Then answer them.',hint:'<div class="card" style="margin:6px 0 4px"><b>Read:</b> Joaquín Lavado, "Quino", was a famous Argentine cartoonist. He was born in Mendoza in 1932. He created Mafalda in 1964. Mafalda was a little girl with big ideas. She hated soup and she loved the Beatles. Quino stopped drawing Mafalda in 1973, but people around the world read her stories. Quino died in Mendoza in 2020.</div>Escribí la pregunta en pasado y respondela con el texto.',items:[
+  {q:'<b>Quino / be / from Mendoza?</b><br>Q: {}<br>A: {}',a:[['Was Quino from Mendoza?'],['Yes, he was.']]},
+  {q:'<b>When / Quino / create / Mafalda?</b><br>Q: {}<br>A: {}',a:[['When did Quino create Mafalda?'],['He created Mafalda in 1964.','In 1964.','*']]},
+  {q:'<b>Mafalda / be / a little girl?</b><br>Q: {}<br>A: {}',a:[['Was Mafalda a little girl?'],['Yes, she was.']]},
+  {q:'<b>Mafalda / like / soup?</b><br>Q: {}<br>A: {}',a:[['Did Mafalda like soup?'],["No, she didn't.",'No, she did not.']]},
+  {q:'<b>Who / create / Mafalda?</b><br>Q: {}<br>A: {}',a:[['Who created Mafalda?'],['Quino created Mafalda.','Quino.','*']]},
+  {q:'<b>Quino / stop / drawing Mafalda in 1973?</b><br>Q: {}<br>A: {}',a:[['Did Quino stop drawing Mafalda in 1973?'],['Yes, he did.']]},
+  {q:'<b>Where / Quino / die?</b><br>Q: {}<br>A: {}',a:[['Where did Quino die?'],['He died in Mendoza.','In Mendoza.','*']]},
+  {q:'<b>people around the world / read / Mafalda\'s stories?</b><br>Q: {}<br>A: {}',a:[["Did people around the world read Mafalda's stories?"],['Yes, they did.']]}]}
 ]},
 {id:'test',name:'5 · Final test',intro:'<h2>Final test · 10 points</h2>10 questions, 1 point each. Choose one option in each question and press <b>Correct my test</b> at the end. / 10 preguntas, 1 punto cada una.',acts:[]}
 ];
