@@ -374,8 +374,10 @@ const TABS=[
  {id:'w7',type:'type',wide:true,title:'Write the question',hint:'Write a question for the words in bold.',items:[
   {q:'Iberian lynxes live <b>in Spain</b>.',a:[['Where do Iberian lynxes live?','Where do lynxes live?','Where do they live?']]},{q:'Loggerhead turtles eat <b>jellyfish</b>.',a:[['What do loggerhead turtles eat?','What do turtles eat?','What do they eat?']]},{q:'Lynxes can live <b>for 13 years</b>.',a:[['How long can lynxes live?','How long can they live?','How long can Iberian lynxes live?']]},{q:'Lynxes are in danger <b>because people kill them</b>.',a:[['Why are lynxes in danger?','Why are they in danger?','Why are Iberian lynxes in danger?']]},{q:'<b>The Nile</b> is the longest river in the world.',a:[['Which is the longest river in the world?','What is the longest river in the world?']]},{q:'Aconcagua is <b>in Argentina</b>.',a:[['Where is Aconcagua?']]}]},
  {id:'w8',type:'mc',title:'Correct or wrong?',hint:'Choose the correct question.',items:[
-  {q:'',o:['Where do lynxes live?','Where lynxes live?'],a:0,why:'Wh- + do + subject + verb.'},{q:'',o:['What do turtles eat?','What turtles eat?'],a:0,why:'Don\'t forget "do".'},{q:'',o:['Why are lynxes in danger?','Why lynxes are in danger?'],a:0,why:'Wh- + are + subject.'},{q:'',o:['Which is the highest mountain?','Which is the most high mountain?'],a:0,why:'high → the highest.'},{q:'',o:['How long can turtles live?','How long turtles can live?'],a:0,why:'Wh- + can + subject + verb.'}]},
- {id:'w9',type:'type',wide:true,title:'Write questions using the prompts. Then answer them.',hint:'Escribí la pregunta con las palabras dadas (agregá do / does / is / are / can) y después respondela. Use the lynx and turtle cards.',items:[
+  {q:'',o:['Where do lynxes live?','Where lynxes live?'],a:0,why:'Wh- + do + subject + verb.'},{q:'',o:['What do turtles eat?','What turtles eat?'],a:0,why:'Don\'t forget "do".'},{q:'',o:['Why are lynxes in danger?','Why lynxes are in danger?'],a:0,why:'Wh- + are + subject.'},{q:'',o:['Which is the highest mountain?','Which is the most high mountain?'],a:0,why:'high → the highest.'},{q:'',o:['How long can turtles live?','How long turtles can live?'],a:0,why:'Wh- + can + subject + verb.'}]}
+]},
+{id:'prompts',name:'5 · Questions from prompts',intro:'<h2>Write questions using the prompts. Then answer them.</h2>Present simple. Agregá <b>do / does / is / are / can</b> y armá la pregunta. Después respondela. <br><b>Recordá:</b> con <b>Who</b> como sujeto no va do/does: <i>Who lives near the falls?</i>',info:true,acts:[
+  {id:'w9',type:'type',wide:true,title:'Write questions using the prompts. Then answer them.',hint:'Escribí la pregunta con las palabras dadas (agregá do / does / is / are / can) y después respondela. Use the lynx and turtle cards.',items:[
   {q:'<b>lynxes / be / wild cats?</b><br>Q: {}<br>A: {}',a:[['Are lynxes wild cats?','Are Iberian lynxes wild cats?'],['Yes, they are.']]},
   {q:'<b>Where / loggerhead turtles / live?</b><br>Q: {}<br>A: {}',a:[['Where do loggerhead turtles live?','Where do turtles live?'],['They live in warm oceans and seas.','*']]},
   {q:'<b>lynxes / eat / meat?</b><br>Q: {}<br>A: {}',a:[['Do lynxes eat meat?','Do Iberian lynxes eat meat?'],['Yes, they do.']]},
@@ -384,24 +386,24 @@ const TABS=[
   {q:'<b>Why / lynxes / be / in danger?</b><br>Q: {}<br>A: {}',a:[['Why are lynxes in danger?','Why are Iberian lynxes in danger?'],["Because they can't find enough food and people kill them.",'*']]},
   {q:'<b>How long / lynxes / can / live?</b><br>Q: {}<br>A: {}',a:[['How long can lynxes live?','How long can Iberian lynxes live?'],['They can live for 13 years.','*']]},
   {q:'<b>Argentina / have / glaciers?</b><br>Q: {}<br>A: {}',a:[['Does Argentina have glaciers?'],['Yes, it does.']]}]},
- {id:'w10',type:'mc',title:'Questions in the past: Was / Were / Did',hint:'<div class="card" style="margin:6px 0 4px"><b>Past questions</b><br>• <b>be</b> → <b>Was / Were</b> + subject…? → Yes, he was. / No, they weren\'t.<br>• Other verbs → <b>Did</b> + subject + verb <b>(base form)</b>? → Yes, he did. / No, she didn\'t.<br>• <b>Who</b> as the subject → no did: <b>Who took the photos?</b></div>',items:[
-  {q:'___ Tomás in Misiones last summer?',o:['Was','Were','Did'],a:0,why:'be + he → Was.'},
-  {q:'___ the Iguazú Falls amazing?',o:['Were','Was','Did'],a:0,why:'be + they → Were.'},
-  {q:'___ Tomás visit the rainforest?',o:['Did','Was','Does'],a:0,why:'Other verb in the past → Did.'},
-  {q:'Who ___ a lot of photos?',o:['took','did take','did took'],a:0,why:'Who is the subject → no did: Who took a lot of photos?'},
-  {q:'Did they ___ in the river?',o:['swim','swam','swims'],a:0,why:'After did → base form: swim.'},
-  {q:'Did they enjoy the trip?',o:['Yes, they did.','Yes, they were.','Yes, they enjoyed.'],a:0,why:'Did → Yes, they did.'}]},
- {id:'w11',type:'type',wide:true,title:'A trip to Iguazú: write questions using the prompts. Then answer them.',hint:'<div class="card" style="margin:6px 0 4px"><b>Read:</b> Last summer, Tomás travelled to Misiones with his family. They visited the Iguazú Falls. The weather was very hot. Tomás saw toucans and butterflies in the rainforest. His sister, Sofía, took a lot of photos. They didn\'t swim in the river because it was dangerous. The Devil\'s Throat was the most amazing place of the trip! They stayed in Misiones for five days.</div>Escribí la pregunta en pasado y respondela con el texto.',items:[
-  {q:'<b>Tomás / travel / to Misiones?</b><br>Q: {}<br>A: {}',a:[['Did Tomás travel to Misiones?','Did Tomas travel to Misiones?'],['Yes, he did.']]},
-  {q:'<b>What / they / visit?</b><br>Q: {}<br>A: {}',a:[['What did they visit?'],['They visited the Iguazú Falls.','The Iguazú Falls.','*']]},
-  {q:'<b>the weather / be / cold?</b><br>Q: {}<br>A: {}',a:[['Was the weather cold?'],["No, it wasn't.",'No, it was not.']]},
-  {q:'<b>What animals / Tomás / see?</b><br>Q: {}<br>A: {}',a:[['What animals did Tomás see?','What animals did Tomas see?'],['He saw toucans and butterflies.','*']]},
-  {q:'<b>Who / take / a lot of photos?</b><br>Q: {}<br>A: {}',a:[['Who took a lot of photos?'],['Sofía took a lot of photos.','Sofía.','*']]},
-  {q:'<b>they / swim / in the river?</b><br>Q: {}<br>A: {}',a:[['Did they swim in the river?'],["No, they didn't.",'No, they did not.']]},
-  {q:'<b>Why / they / not swim / in the river?</b><br>Q: {}<br>A: {}',a:[["Why didn't they swim in the river?",'Why did they not swim in the river?'],['Because it was dangerous.','*']]},
-  {q:'<b>How long / they / stay / in Misiones?</b><br>Q: {}<br>A: {}',a:[['How long did they stay in Misiones?'],['They stayed for five days.','For five days.','*']]}]}
+ {id:'p2',type:'mc',title:'Present questions: Is / Are / Do / Does',hint:'<div class="card" style="margin:6px 0 4px"><b>Present simple questions</b><br>• <b>be</b> → <b>Is / Are</b> + subject…? → Yes, she is. / No, they aren\'t.<br>• Other verbs → <b>Do</b> (I, you, we, they) / <b>Does</b> (he, she, it) + subject + verb? → Yes, she does. / No, they don\'t.<br>• After <b>does</b>, the verb has no -s: Does she <b>live</b>…?<br>• <b>Who</b> as the subject → no do/does: <b>Who lives near the falls?</b></div>',items:[
+  {q:'___ Lucía a park ranger?',o:['Is','Are','Does'],a:0,why:'be + she → Is.'},
+  {q:'___ toucans and coatis live in the park?',o:['Do','Does','Are'],a:0,why:'they → Do.'},
+  {q:'___ Lucía walk in the rainforest every day?',o:['Does','Do','Is'],a:0,why:'she → Does.'},
+  {q:'Who ___ near the falls?',o:['lives','does live','do lives'],a:0,why:'Who is the subject → no does: Who lives near the falls?'},
+  {q:'Does she ___ in the river?',o:['swim','swims','swimming'],a:0,why:'After does → verb without -s.'},
+  {q:'Do tourists visit the falls?',o:['Yes, they do.','Yes, they are.','Yes, they visit.'],a:0,why:'Do → Yes, they do.'}]},
+ {id:'p3',type:'type',wide:true,title:'A park ranger in Iguazú: write questions using the prompts. Then answer them.',hint:'<div class="card" style="margin:6px 0 4px"><b>Read:</b> Lucía is a park ranger at Iguazú National Park, in Misiones. She lives near the falls with her family. Every day she gets up at six o\'clock. She walks in the rainforest and looks after the animals. Toucans and coatis live in the park. Tourists visit the falls every day. Lucía doesn\'t swim in the river because it is dangerous. Her favourite place is the Devil\'s Throat. It is the most amazing waterfall in the park!</div>Escribí la pregunta en presente y respondela con el texto.',items:[
+  {q:'<b>Lucía / be / a park ranger?</b><br>Q: {}<br>A: {}',a:[['Is Lucía a park ranger?','Is Lucia a park ranger?'],['Yes, she is.']]},
+  {q:'<b>Where / Lucía / live?</b><br>Q: {}<br>A: {}',a:[['Where does Lucía live?','Where does Lucia live?'],['She lives near the falls.','*']]},
+  {q:'<b>What time / she / get up?</b><br>Q: {}<br>A: {}',a:[['What time does she get up?'],["She gets up at six o'clock.",'*']]},
+  {q:'<b>toucans and coatis / live / in the park?</b><br>Q: {}<br>A: {}',a:[['Do toucans and coatis live in the park?'],['Yes, they do.']]},
+  {q:'<b>Who / visit / the falls every day?</b><br>Q: {}<br>A: {}',a:[['Who visits the falls every day?'],['Tourists visit the falls every day.','Tourists.','*']]},
+  {q:'<b>Lucía / swim / in the river?</b><br>Q: {}<br>A: {}',a:[['Does Lucía swim in the river?','Does Lucia swim in the river?','Does she swim in the river?'],["No, she doesn't.",'No, she does not.']]},
+  {q:'<b>Why / she / not swim / in the river?</b><br>Q: {}<br>A: {}',a:[["Why doesn't she swim in the river?",'Why does she not swim in the river?',"Why doesn't Lucía swim in the river?"],['Because it is dangerous.','*']]},
+  {q:'<b>What / be / her favourite place?</b><br>Q: {}<br>A: {}',a:[["What is her favourite place?","What's her favourite place?"],["Her favourite place is the Devil's Throat.",'*']]}]}
 ]},
-{id:'test',name:'5 · Final test',intro:'<h2>Final test · 10 points</h2>10 questions, 1 point each. Choose one option in each question and press <b>Correct my test</b> at the end. / 10 preguntas, 1 punto cada una.',acts:[]}
+{id:'test',name:'6 · Final test',intro:'<h2>Final test · 10 points</h2>10 questions, 1 point each. Choose one option in each question and press <b>Correct my test</b> at the end. / 10 preguntas, 1 punto cada una.',acts:[]}
 ];
 
 const EVAL=[
